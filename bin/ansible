@@ -23,7 +23,7 @@ VAULT_SECRET="$HOME/.ansible-vault-pass"
 export DEBIAN_FRONTEND=noninteractive
 
 # Check if Ansible is already installed
-if dpkg -s $PACKAGE_NAME >/dev/null 2>&1; then
+if dpkg -s ansible >/dev/null 2>&1; then
   echo -e "${LGREEN}Ansible is already installed.${NC}"
 else
   # Update the package list
