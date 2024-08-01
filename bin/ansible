@@ -44,7 +44,7 @@ else
 
   # Install Ansible
   echo "Installing Ansible..."
-  sudo apt-get install -y ansible >/dev/null 2>&1
+  apt-get install -y ansible >/dev/null 2>&1
 
   # Verify Ansible installation
   if ansible --version >/dev/null 2>&1; then
