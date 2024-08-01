@@ -28,19 +28,19 @@ if dpkg -s $PACKAGE_NAME >/dev/null 2>&1; then
 else
   # Update the package list
   echo "updating"
-  sudo apt-get update -qq >/dev/null 2>&1
+  apt-get update -qq >/dev/null 2>&1
 
   # Install apt-utils to avoid configuration delay warnings
   echo "Installing apt-utils..."
-  sudo apt-get install -y apt-utils >/dev/null 2>&1
+  apt-get install -y apt-utils >/dev/null 2>&1
 
   # Install software-properties-common to manage repositories
   echo "Installing required packages..."
-  sudo apt-get install -y software-properties-common >/dev/null #2>&1
+  apt-get install -y software-properties-common >/dev/null #2>&1
 
   # Add Ansible PPA (Personal Package Archive)
   echo "Adding Ansible PPA..."
-  sudo apt-add-repository --yes --update $REPO_URL >/dev/null 2>&1
+  apt-add-repository --yes --update $REPO_URL >/dev/null 2>&1
 
   # Install Ansible
   echo "Installing Ansible..."
@@ -62,10 +62,10 @@ if command -v git >/dev/null 2>&1; then
   echo -e "${LGREEN}Git is already installed.${NC}"
 else
   # Update the package list
-  sudo apt-get update -qq >/dev/null
+  apt-get update -qq >/dev/null
 
   # Install Git
-  sudo apt-get install -y git >/dev/null
+  apt-get install -y git >/dev/null
 
   # Verify Git installation
   if git --version >/dev/null 2>&1; then
