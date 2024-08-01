@@ -11,6 +11,9 @@ setup automation
 
 
 container
-1.
-2.nvim
-3.
+1.nvim
+
+#Command to run ansible conf bash script
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/vrushalikudande/ansible-custom-config/main/bin/ansible)"
+```
