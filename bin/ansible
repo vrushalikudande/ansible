@@ -11,8 +11,8 @@ THUMB_UP="${LYELLOW}\xF0\x9F\x91\x8D${NC}"   # Thumbs up (👍)
 X_MARK="${LRED}\xE2\x9C\x96${NC}"             # Cross mark (✘)
 
 # Define variables
-PACKAGE_NAME="ansible"
-REPO_URL="ppa:ansible/ansible"
+#PACKAGE_NAME="ansible"
+#REPO_URL="ppa:ansible/ansible"
 GIT_REPO_URL="https://github.com/vrushalikudande/ansible-custom-config.git"
 DOTFILES_DIR="$HOME/.dotfiles"
 
@@ -40,11 +40,11 @@ else
 
   # Add Ansible PPA (Personal Package Archive)
   echo "Adding Ansible PPA..."
-  apt-add-repository --yes --update $REPO_URL >/dev/null 2>&1
+  apt-add-repository --yes --update ppa:ansible/ansible >/dev/null 2>&1
 
   # Install Ansible
   echo "Installing Ansible..."
-  sudo apt-get install -y $PACKAGE_NAME >/dev/null 2>&1
+  sudo apt-get install -y ansible >/dev/null 2>&1
 
   # Verify Ansible installation
   if ansible --version >/dev/null 2>&1; then
