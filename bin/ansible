@@ -36,7 +36,7 @@ else
 
   # Install software-properties-common to manage repositories
   echo "Installing required packages..."
-  sudo apt-get install -y software-properties-common >/dev/null 2>&1
+  sudo apt-get install -y software-properties-common >/dev/null #2>&1
 
   # Add Ansible PPA (Personal Package Archive)
   echo "Adding Ansible PPA..."
