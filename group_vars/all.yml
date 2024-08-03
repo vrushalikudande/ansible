@@ -1,0 +1,9 @@
+default_roles:
+  - firefox
+  - zsh
+  - telegram
+  - docker
+  - git
+  - vscode
+  - vlc
+  
