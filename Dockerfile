@@ -3,5 +3,5 @@ FROM ubuntu:latest
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
-    curl \
-    wget \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
