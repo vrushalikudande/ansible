@@ -1,19 +1,7 @@
-# ansible
-setup automation
+# ansible-custom-config
+Custom playbooks for efficient configuration and automation.
 
----------
-1.git
-2.zsh
-3.Telegram
-4.vlc media
-5.docker 
-6.vscode
-
-
-container
-1.nvim
-
-# Command to run ansible conf bash script
+# Command to run ansible-custom-config
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/vrushalikudande/ansible-custom-config/main/bin/ansible)"
 ```
