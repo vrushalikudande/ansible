@@ -1,0 +1,44 @@
+---
+- name: Install Git
+  apt:
+    name: git
+    state: present
+
+- name: "Git | Set user.email"
+  community.general.git_config:
+    name: user.email
+    scope: global
+    value: "{{ git_user_email }}"
+  no_log: false
+
+- name: "Git | Set user.name"
+  community.general.git_config:
+    name: user.name
+    scope: global
+    value: "{{ git_user_name }}"
+  no_log: true
+
+- name: Create .ssh directory
+  file:
+    path: /root/.ssh
+    state: directory
+    mode: '0700'
+
+- name: "SSH | Copy SSH keys"
+  copy:
+    dest: "{{ ansible_user_dir }}/.ssh/{{ ssh_key_item.key }}"
+    content: "{{ ssh_key_item.value }}"
+    mode: "0600"
+  no_log: true
+  loop_control:
+    loop_var: ssh_key_item
+  with_items: "{{ ssh_key | default({}) | dict2items }}"
+
+- name: Start SSH agent
+  shell: eval $(ssh-agent -s)
+  register: ssh_agent_output
+
+- name: Add SSH key to the SSH agent
+  command: ssh-add {{ ansible_user_dir }}/.ssh/id_ed25519
+  become: yes
+ 

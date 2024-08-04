@@ -1,0 +1,49 @@
+---
+- name: Remove Snap version of Firefox if installed
+  shell: |
+    snap list firefox && snap remove firefox || echo "Firefox snap not installed"
+  register: snap_remove_result
+  failed_when:
+    - snap_remove_result.rc != 0
+    - "'Firefox snap not installed' not in snap_remove_result.stdout"
+
+- name: Ensure the directory for APT keys exists
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Download the Mozilla APT repository signing key
+  get_url:
+    url: https://packages.mozilla.org/apt/repo-signing-key.gpg
+    dest: /etc/apt/keyrings/packages.mozilla.org.asc
+
+- name: Verify the key fingerprint
+  shell: |
+    gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | \
+    awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") print "\nThe key fingerprint matches ("$0").\n"; else print "\nVerification failed: the fingerprint ("$0") does not match the expected one.\n"}'
+  register: key_fingerprint_check
+  failed_when: "'Verification failed' in key_fingerprint_check.stdout"
+
+- name: Add Mozilla APT repository to sources list
+  lineinfile:
+    path: /etc/apt/sources.list.d/mozilla.list
+    line: 'deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main'
+    create: yes
+
+- name: Configure APT to prioritize packages from Mozilla repository
+  copy:
+    dest: /etc/apt/preferences.d/mozilla
+    content: |
+      Package: *
+      Pin: origin packages.mozilla.org
+      Pin-Priority: 1000
+
+- name: Update APT package list
+  apt:
+    update_cache: yes
+
+- name: Install Firefox
+  apt:
+    name: firefox
+    state: present
