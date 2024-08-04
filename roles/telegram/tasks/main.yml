@@ -1,0 +1,25 @@
+---
+- name: Download Telegram executable
+  ansible.builtin.get_url:
+    url: https://telegram.org/dl/desktop/linux
+    dest: /tmp/telegram.tar.xz
+    mode: '0644'
+
+- name: Extract Telegram executable
+  ansible.builtin.unarchive:
+    src: /tmp/telegram.tar.xz
+    dest: /usr/local/bin/
+    remote_src: yes
+
+- name: Create a symbolic link to /usr/bin
+  ansible.builtin.file:
+    src: /usr/local/bin/Telegram/Telegram
+    dest: /usr/bin/telegram
+    state: link
+ 
+- name: Uncomment WaylandEnable=false in /etc/gdm3/custom.conf
+  ansible.builtin.lineinfile:
+    path: /etc/gdm3/custom.conf
+    regexp: '^#WaylandEnable=false'
+    line: 'WaylandEnable=false'
+    state: present
