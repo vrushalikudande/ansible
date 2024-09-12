@@ -22,29 +22,40 @@ VAULT_SECRET="$HOME/.ansible-vault-pass"
 # Set non-interactive frontend for debconf
 export DEBIAN_FRONTEND=noninteractive
 
+# Check the Machine
+if [[ -f /.dockerenv ]]; then
+    echo "Running inside a Docker container."
+    apt update -y && apt install sudo -y
+else
+    echo "Running on a local machine."
+    sudo locale-gen en_US.UTF-8
+    sudo update-locale LANG=en_US.UTF-8
+    source /etc/default/locale
+fi
+
 # Check if Ansible is already installed
 if dpkg -s ansible >/dev/null 2>&1; then
   echo -e "${LGREEN}Ansible is already installed.${NC}"
 else
   # Update the package list
   echo "updating"
-  apt-get update -qq >/dev/null 2>&1
+  sudo apt-get update -qq >/dev/null 2>&1
 
   # Install apt-utils to avoid configuration delay warnings
   echo "Installing apt-utils..."
-  apt-get install -y apt-utils >/dev/null 2>&1
+  sudo apt-get install -y apt-utils >/dev/null 2>&1
 
   # Install software-properties-common to manage repositories
   echo "Installing required packages..."
-  apt-get install -y software-properties-common >/dev/null #2>&1
+  sudo apt-get install -y software-properties-common >/dev/null #2>&1
 
   # Add Ansible PPA (Personal Package Archive)
   echo "Adding Ansible PPA..."
-  apt-add-repository --yes --update ppa:ansible/ansible >/dev/null 2>&1
+  sudo apt-add-repository --yes --update ppa:ansible/ansible >/dev/null 2>&1
 
   # Install Ansible
   echo "Installing Ansible..."
-  apt-get install -y ansible >/dev/null 2>&1
+  sudo apt-get install -y ansible >/dev/null 2>&1
 
   # Verify Ansible installation
   if ansible --version >/dev/null 2>&1; then
@@ -62,10 +73,10 @@ if command -v git >/dev/null 2>&1; then
   echo -e "${LGREEN}Git is already installed.${NC}"
 else
   # Update the package list
-  apt-get update -qq >/dev/null
+  sudo apt-get update -qq >/dev/null
 
   # Install Git
-  apt-get install -y git >/dev/null
+  sudo apt-get install -y git >/dev/null
 
   # Verify Git installation
   if git --version >/dev/null 2>&1; then
