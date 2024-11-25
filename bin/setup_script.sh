@@ -21,6 +21,7 @@ VAULT_SECRET="$HOME/.ansible-vault-pass"
 
 # Set non-interactive frontend for debconf
 export DEBIAN_FRONTEND=noninteractive
+echo "done"
 
 # Check the Machine
 if [[ -f /.dockerenv ]]; then
