@@ -2,6 +2,7 @@
 - name: Custom DotFiles and Software Config
   hosts: localhost
   connection: local
+  become: true
   tasks:
     - name: Set roles
       ansible.builtin.set_fact:
@@ -17,13 +18,12 @@
 
     - name: Execute custom roles
       ansible.builtin.include_role:
-        name: "{{ roles_item }}"
         apply:
           tags:
             - "{{ roles_item }}"
-      loop: "{{ run_roles }}"
+        name: "{{ roles_item }}"
       loop_control:
         loop_var: roles_item
-      become: true  # Ensure all roles are executed with sudo
+      with_items: "{{ run_roles }}"
       tags:
         - always
