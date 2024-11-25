@@ -17,13 +17,13 @@
 
     - name: Execute custom roles
       ansible.builtin.include_role:
+        name: "{{ roles_item }}"
         apply:
           tags:
             - "{{ roles_item }}"
-        name: "{{ roles_item }}"
+      loop: "{{ run_roles }}"
       loop_control:
         loop_var: roles_item
-      with_items: "{{ run_roles }}"
-      become: true
+      become: true  # Ensure all roles are executed with sudo
       tags:
         - always
