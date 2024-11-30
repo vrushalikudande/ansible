@@ -26,7 +26,8 @@ echo "done"
 # Check the Machine
 if [[ -f /.dockerenv ]]; then
     echo "Running inside a Docker container."
-    apt update -y && apt install sudo dialog libterm-readline-gnu-perl -y
+    export DEBIAN_FRONTEND=noninteractive
+    apt update -y && apt install -y sudo dialog libterm-readline-gnu-perl 
 else
     echo "Running on a local machine."
     sudo locale-gen en_US.UTF-8
